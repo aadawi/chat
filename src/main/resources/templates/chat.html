@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="webjars/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <title>Chat</title>
+</head>
+<body>
+<form action="#" name="chat" id="chat" th:action="@{/chat}"
+      th:object="${chat}" method="post" class="search-header" >
+    <h1>Chat</h1>
+    <input type='text' class="form-control host-field" th:name="username"  autocomplete="off" th:field="*{username}" th:value="*{username}"/>
+    <input type='text' class="form-control host-field" th:name="message"   autocomplete="off" th:field="*{message}" th:value="*{message}"/>
+
+    <button type="submit" >submit</button>
+
+    <div id="feedback" style="margin-top:30px;padding-left:20%;padding-right:20%"></div>
+</form>
+</body>
+</html>
+<script type="application/javascript"
+        src="webjars/jquery/2.2.4/jquery.min.js"></script>
+
+<script th:inline="javascript">
+
+    $(document).ready(function () {
+
+        connect();
+
+        $("#chat").submit(function (event) {
+            //stop submit the form, we will post it manually.
+            event.preventDefault();
+            fire_ajax_submit();
+        });
+
+    });
+
+    function fire_ajax_submit() {
+
+        var search = {}
+        search["message"] = $("#message").val();
+        search["username"] = $("#username").val();
+        $("#message").val("");
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: "/chat",
+            data: JSON.stringify(search),
+            dataType: 'json',
+            cache: false,
+            timeout: 600000,
+            success: function (data) {
+                if (data.dateTo != ""){
+                            var json = "<pre> <B>"+data.username +">>: </B> "
+                                + data.message + "</pre>";
+                }
+                console.log("SUCCESS : ", data.message);
+            },
+            error: function (e) {
+                var json = "<h4>Ajax Response</h4><pre>"
+                    + e.responseText + "</pre>";
+                $('#feedback').html(json.message);
+                console.log("ERROR : ", e);
+            }
+        });
+
+    }
+
+    var connect = function () {
+        var source = new EventSource('/register');
+        // Handle correct opening of connection
+        source.addEventListener('open', function (e) {
+            console.log('Connected.');
+        });
+        // Update the state when ever a message is sent
+        source.addEventListener('message', function (e) {
+            console.log('Message.');
+            var data = JSON.parse(e.data);
+            console.log("New state: " + data);
+            if (data.message != ""){
+                var json = "<pre> <B>"+data.username +" >>:</B> "+ data.message + "</pre>";
+                $('#feedback').prepend(json);
+            }
+
+        }, false);
+        // Reconnect if the connection fails
+        source.addEventListener('error', function (e) {
+            console.log('Disconnected.');
+            if (e.readyState == EventSource.CLOSED) {
+                connected = false;
+                connect();
+            }
+        }, false);
+    };
+</script>
