@@ -51,7 +51,6 @@ public class ChatController {
                             System.out.println(" ERROR "+emitter.getTimeout());
                         });
                     } catch (Exception e) {
-//                e.printStackTrace();
                     }
                 });
             });

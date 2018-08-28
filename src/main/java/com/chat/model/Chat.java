@@ -16,6 +16,6 @@ public class Chat implements Serializable {
 
     @Column(name = "username")
     private String username;
-    @Column(name = "message")
+    @Column(name = "message", length = 100000)
     private String message;
 }

@@ -13,7 +13,7 @@
 
     <button type="submit" >submit</button>
 
-    <div id="feedback" style="margin-top:30px;padding-left:20%;padding-right:20%"></div>
+    <div id="feedback" style="margin-top:30px;padding-left:10%;padding-right:10%"></div>
 </form>
 </body>
 </html>
@@ -50,10 +50,9 @@
             timeout: 600000,
             success: function (data) {
                 if (data.dateTo != ""){
-                            var json = "<pre> <B>"+data.username +">>: </B> "
-                                + data.message + "</pre>";
+                    var json = "<pre> <B>"+data.username +">>: </B> "+ data.message + "</pre>";
                 }
-                console.log("SUCCESS : ", data.message);
+                // console.log("SUCCESS : ", data.message);
             },
             error: function (e) {
                 var json = "<h4>Ajax Response</h4><pre>"
@@ -77,7 +76,7 @@
             var data = JSON.parse(e.data);
             console.log("New state: " + data);
             if (data.message != ""){
-                var json = "<pre> <B>"+data.username +" >>:</B> "+ data.message + "</pre>";
+                var json = "<pre> <B>"+data.username +" >>:</B> "+ "<xmp>"+data.message + "</xmp></pre>";
                 $('#feedback').prepend(json);
             }
 
