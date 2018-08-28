@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class ChatController {
 
     @Autowired
-    ChatRepository chatRepository;
+    private ChatRepository chatRepository;
 
     Queue<SseEmitter> sseEmitters = new ConcurrentLinkedQueue<>();
     boolean isNotFirstRequest;
@@ -73,6 +73,14 @@ public class ChatController {
 
 
         return ResponseEntity.ok(chatRequest);
+    }
+
+    @GetMapping(path = "/clear")
+    public String clear(Model model)  {
+        chatRepository.deleteAll();
+        model.addAttribute("chat",new Chat());
+        isNotFirstRequest =false;
+        return "chat";
     }
 
     @GetMapping(path = "/register")
