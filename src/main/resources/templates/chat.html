@@ -8,8 +8,11 @@
 <form action="#" name="chat" id="chat" th:action="@{/chat}"
       th:object="${chat}" method="post" class="search-header" >
     <h1>Chat</h1>
-    <input type='text' class="form-control host-field" th:name="username"  autocomplete="off" th:field="*{username}" th:value="*{username}"/>
-    <input type='text' class="form-control host-field" th:name="message"   autocomplete="off" th:field="*{message}" th:value="*{message}"/>
+    <input type='text' class="form-control host-field" th:name="username"
+           autocomplete="off" th:field="*{username}" th:value="*{username}"/>
+
+    <input type='text' class="form-control host-field" th:name="message"
+           autocomplete="off" th:field="*{message}" th:value="*{message}"/>
 
     <button type="submit" >submit</button>
 
@@ -51,6 +54,7 @@
             success: function (data) {
                 if (data.dateTo != ""){
                     var json = "<pre> <B>"+data.username +">>: </B> "+ data.message + "</pre>";
+                    // $('#feedback').prepend(json);
                 }
                 // console.log("SUCCESS : ", data.message);
             },

@@ -23,7 +23,7 @@ public class ChatController {
     Queue<SseEmitter> sseEmitters = new ConcurrentLinkedQueue<>();
     boolean isNotFirstRequest;
 
-    @GetMapping(path = "/chat")
+    @GetMapping(path = {"/chat","/"})
     public String startChat(Model model) {
         model.addAttribute("chat",new Chat());
         isNotFirstRequest =false;
