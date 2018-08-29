@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
@@ -35,6 +36,9 @@ public class ChatController {
 
         chatRequest.setId(System.nanoTime());
         try {
+            if (StringUtils.isEmpty(chatRequest.getUsername())){
+                chatRequest.setUsername("Anonymous");
+            }
             chatRepository.save(chatRequest);
         }catch (Exception e){
             e.printStackTrace();
