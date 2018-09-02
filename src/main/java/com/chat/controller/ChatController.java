@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.io.IOException;
@@ -27,6 +28,14 @@ public class ChatController {
     @GetMapping(path = {"/chat","/"})
     public String startChat(Model model) {
         model.addAttribute("chat",new Chat());
+        isNotFirstRequest =false;
+        return "chat";
+    }
+
+    @GetMapping(path = {"/showall"})
+    public String showAllChat(Model model) {
+        model.addAttribute("chat",new Chat());
+        model.addAttribute("showAll",true);
         isNotFirstRequest =false;
         return "chat";
     }
