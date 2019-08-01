@@ -3,6 +3,7 @@ package com.chat.controller;
 import com.chat.model.Chat;
 import com.chat.repository.ChatRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -98,7 +99,7 @@ public class ChatController {
 
     @GetMapping(path = "/register")
     public SseEmitter register() throws IOException {
-        SseEmitter emitter = new SseEmitter(100000l);
+        SseEmitter emitter = new SseEmitter();
         sseEmitters.add(emitter);
         return emitter;
     }
